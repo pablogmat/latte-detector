@@ -19,8 +19,12 @@ COPY requirements.txt .
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
+RUN pwd
+
 # Copy the rest of the working directory contents into the container at /app
 COPY . ./
+
+RUN ls -lrt
 
 #Build image using only the required code
 FROM python:3.9.2-slim AS deploy-image
