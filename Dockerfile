@@ -9,11 +9,11 @@ RUN python -m venv /opt/venv
 # Make sure we use the virtualenv:
 ENV PATH="/opt/venv/bin:$PATH"
 
-# copy the requirements file used for dependencies
-COPY requirements.txt .
-
 # Set the working directory to /app
 WORKDIR /app
+
+# copy the requirements file used for dependencies
+COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
