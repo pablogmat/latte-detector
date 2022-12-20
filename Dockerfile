@@ -3,14 +3,14 @@ FROM python:3.9.2 AS compile-image
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends build-essential gcc
 
+# Set the working directory to /app
+WORKDIR /app
+
 #initialize virtualenv
 RUN python -m venv /opt/venv
 
 # Make sure we use the virtualenv:
 ENV PATH="/opt/venv/bin:$PATH"
-
-# Set the working directory to /app
-WORKDIR /opt/venv
 
 # copy the requirements file used for dependencies
 COPY requirements.txt .
@@ -23,6 +23,9 @@ FROM python:3.9.2-slim AS build-image
 
 # Copy the rest of the working directory contents into the container at /app
 COPY --from=compile-image /opt/venv /opt/venv
+
+# Set the working directory to /app
+WORKDIR /app
 
 # Run app.py when the container launches
 ENV PATH="/opt/venv/bin:$PATH"
