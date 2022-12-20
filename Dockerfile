@@ -10,7 +10,7 @@ RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Set the working directory to /app
-WORKDIR /app
+#WORKDIR /app
 
 # copy the requirements file used for dependencies
 COPY requirements.txt .
