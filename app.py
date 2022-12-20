@@ -9,6 +9,7 @@ from google.cloud import aiplatform
 from google.cloud.aiplatform.gapic.schema import predict
 from werkzeug.utils import secure_filename
 from PIL import Image
+import requests
  
 app = Flask(__name__)
  
@@ -23,6 +24,38 @@ img  = Image.new( mode = "RGB", size = (300, 300) )
  
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def get_project_id():
+
+   # Set the metadata server URL
+    metadata_server_url = 'http://metadata.google.internal/computeMetadata/v1/project/numeric-project-id'
+
+    # Set the metadata server headers
+    metadata_server_headers = {'Metadata-Flavor': 'Google'}
+
+    # Make a request to the metadata server to retrieve the project ID
+    response = requests.get(metadata_server_url, headers=metadata_server_headers)
+
+    # Get the project ID from the response
+    project_id = response.text
+
+    # Pass the project ID to the process_project_id function
+    app(project_id)
+
+def get_region():
+    # Set the metadata server URL
+    metadata_server_url = 'http://metadata.google.internal/computeMetadata/v1/instance/region'
+
+    # Set the metadata server headers
+    metadata_server_headers = {'Metadata-Flavor': 'Google'}
+
+    # Make a request to the metadata server to retrieve the region
+    response = requests.get(metadata_server_url, headers=metadata_server_headers)
+
+    # Get the region from the response
+    region = response.text
+
+    return region
 
 
 def isCoffee(fullpath):
@@ -158,11 +191,11 @@ def upload_image():
         else:
             print("Prediction Call....")
             skill = predict_image_classification_sample(
-            project="78********",
+            project= get_project_id(),
             endpoint_id="871************",
-            location="europe-west4",
+            location= get_region(),
             filename=fn,
-            api_endpoint="europe-west4-aiplatform.googleapis.com")
+            api_endpoint= get_region() + "-aiplatform.googleapis.com")
             
             upload_blob(fn,filename)
             message = 'Your barista Skill level is: ' + skill
