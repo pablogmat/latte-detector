@@ -5,9 +5,9 @@ metadata:
 description: application deployment pipeline
 serialPipeline:
  stages:
- - targetId: dev-env
+ - targetId: dev
    profiles: [dev]
- - targetId: prod-env
+ - targetId: prod
    profiles: [prod]
 ---
 
