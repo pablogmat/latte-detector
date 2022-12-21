@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ${IMAGE_NAME}
+      - image: latte-art
         env:
           - name: target_projetid
             valueFrom:
