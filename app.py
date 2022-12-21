@@ -192,7 +192,7 @@ def upload_image():
             print("Prediction Call....")
             skill = predict_image_classification_sample(
             project= os.environ.get('target_projetid'),
-            endpoint_id= os.environ.get('vertex-endpoint'),
+            endpoint_id= os.environ.get('vertex_endpoint'),
             location= get_region(),
             filename=fn,
             api_endpoint= get_region() + "-aiplatform.googleapis.com")

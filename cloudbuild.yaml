@@ -1,0 +1,37 @@
+steps:
+# Build and tag using commit sha
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '.', '-t', 'REPO_LOCATION/$PROJECT_ID/IMAGE_NAME:${COMMIT_SHA}', '-f', 'Dockerfile']
+# Push the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'REPO_LOCATION/$PROJECT_ID/IMAGE_NAME:${COMMIT_SHA}']
+# Create release in Google Cloud Deploy
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: gcloud
+  args:
+    [
+      "deploy", "releases", "create", "rel-${SHORT_SHA}",
+      "--delivery-pipeline", "latte-art-pipeline",
+      "--region", "europe-west4",
+      "--annotations", "commitId=${REVISION_ID}",
+      "--images", "IMAGE_NAME=REPO_LOCATION/$PROJECT_ID/IMAGE_NAME:${COMMIT_SHA}"
+    ]
+
+# steps:
+# - name: 'gcr.io/k8s-skaffold/pack'
+#   entrypoint: 'pack'
+#   args: ['build',
+#          '--builder=gcr.io/buildpacks/builder',
+#          '--publish', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/containers-repo/app:$BUILD_ID']
+#   id: Build and package python app
+# - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+#   args: 
+#       [
+#         "deploy", "releases", "create", "release-$_RELEASE_TIMESTAMP-${SHORT_SHA}",
+#         "--delivery-pipeline", "latte-art-pipeline",
+#         "--region", "${_REGION}",
+#         "--images", "app=${_REGION}-docker.pkg.dev/${PROJECT_ID}/containers-repo/app:$BUILD_ID"
+#       ]
+#   entrypoint: gcloud
+
+

@@ -1,0 +1,23 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: latte-art-dev
+spec:
+  template:
+    spec:
+      containers:
+      - image: ${IMAGE}
+        env:
+          - name: target_projetid
+            valueFrom:
+              secretKeyRef:
+                key: 1
+                name: latte-target-project-id
+          - name: vertex_endpoint
+            valueFrom:
+              secretKeyRef:
+                key: 1
+                name: latte-vertex-endpoint
+  traffic:
+  - percent: 100
+    latestRevision: true
