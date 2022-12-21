@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ${IMAGE}
+      - image: ${IMAGE_NAME}
         env:
           - name: target_projetid
             valueFrom:
