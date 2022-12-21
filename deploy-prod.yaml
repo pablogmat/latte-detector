@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-      - image: gcr.io/pablogmf-369012/latte-art
+      - image: app
         env:
           - name: target_projetid
             valueFrom:
