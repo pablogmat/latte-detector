@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-      - image: latte-art
+      - image: gcr.io/${PROJECT_ID}/latte-art
         env:
           - name: target_projetid
             valueFrom:
