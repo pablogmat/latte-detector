@@ -27,3 +27,5 @@ metadata:
 description: Cloud Run PROD service
 run:
  location: projects/$PROJECT_ID/locations/europe-west4
+
+ gcloud projects add-iam-policy-binding pablogmf-369012 --member='14140596336-compute@developer.gserviceaccount.com' --role='roles/iam.serviceAccountUser'
